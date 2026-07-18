@@ -218,7 +218,7 @@ Route::get('/', function () {
         ->leftJoin('address as a', 's.address_id', '=', 'a.address_id')
         ->join('city', 'a.city_id', '=', 'city.city_id')
         ->join('country as count', 'city.country_id', '=', 'count.country_id');
-    
+
     $payment_details = DB::query()
         ->select([
             'c.store_id',
@@ -229,10 +229,81 @@ Route::get('/', function () {
         ->groupBy('c.store_id');
 
     $sales_details = DB::query()
-    ->select('sd.*', 'pd.sales')
-    ->fromSub($store_details, 'sd')
-    ->joinSub($payment_details, 'pd', 'sd.store_id', '=', 'pd.store_id')
-    ->get();
+        ->select('sd.*', 'pd.sales')
+        ->fromSub($store_details, 'sd')
+        ->joinSub($payment_details, 'pd', 'sd.store_id', '=', 'pd.store_id')
+        ->get();
 
-    return $sales_details;
+    // another way of writing
+    $sales_details = DB::query()
+        ->select('sd.*', 'pd.sales')
+        ->fromSub(function ($query) {
+            $query->select([
+                's.store_id',
+                'city.city',
+                'count.country',
+            ])
+                ->from('store as s')
+                ->leftJoin('address as a', 's.address_id', '=', 'a.address_id')
+                ->join('city', 'a.city_id', '=', 'city.city_id')
+                ->join('country as count', 'city.country_id', '=', 'count.country_id');
+        }, 'sd')
+        ->joinSub(function ($query) {
+            $query->select([
+                'c.store_id',
+                DB::raw('sum(pay.amount) as sales'),
+            ])
+                ->from('customer as c')
+                ->join('payment as pay', 'c.customer_id', '=', 'pay.customer_id')
+                ->groupBy('c.store_id');
+        }, 'pd', 'sd.store_id', '=', 'pd.store_id')
+        ->get();
+
+    //------------------------------------------------------------------------------------
+
+    /*
+    # display categories and number of films in each category where films language is english
+
+    #category -> left join -> film_category
+    # film_category -> inner join -> film
+    # fiml -> inner join -> language
+
+    select cat.name, count(f.film_id) as film_count
+    from category as cat
+    left join film_category as fc
+    on cat.category_id = fc.category_id 
+    join film as f 
+    on fc.film_id = f.film_id 
+    join language as lang
+    on f.language_id = lang.language_id 
+    where lang.name = 'English'
+    group by cat.name 
+    order by film_count desc
+    */
+
+    //--------  MY SOLUTION ---------
+    // $categories = DB::query()
+    //     ->select('cat.name', DB::raw('count(f.film_id) as film_count'))
+    //     ->from('category', 'cat')
+    //     ->leftJoin('film_category as fc', 'cat.category_id', '=', 'fc.category_id')
+    //     ->join('film as f', 'fc.film_id', '=', 'f.film_id')
+    //     ->join('language as lang', 'f.language_id', '=', 'lang.language_id')
+    //     ->where('lang.name', '=', 'English')
+    //     ->groupBy('cat.name')
+    //     ->orderBy('film_count', 'desc')->get();
+
+    $categories = DB::query()
+        ->select('cat.name', DB::raw('count(f.film_id) as film_count'))
+        ->from('category as cat')
+        ->leftJoin('film_category as fc', 'cat.category_id', '=', 'fc.category_id')
+        ->join('film as f', 'fc.film_id', '=', 'f.film_id')
+        ->join('language as lang', function ($join) {
+            $join->on('f.language_id', '=', 'lang.language_id')
+                ->where('lang.name', 'English');
+        })
+        ->groupBy('cat.name')
+        ->orderBy('film_count', 'desc')->get();
+
+
+    return $categories;
 });
