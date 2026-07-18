@@ -97,8 +97,43 @@ Route::get('/', function () {
         ->get();
 
     // -----------------------------------------------------------------------------------------------------------------------
+    /* 
+    select 
+    s.staff_id, s.first_name, s.last_name, s.email,
+    addr.address, addr.district, addr.postal_code,
+    c.city, cou.country 
+    from staff as s
+    left join address as addr
+    on s.address_id = addr.address_id
+    left join city as c
+    on addr.city_id = c.city_id 
+    left join country as cou
+    on c.country_id = cou.country_id 
+    */
 
 
-    return $films;
+    $staffWithAddresses = DB::table('staff AS s')
+        ->select([
+            's.staff_id',
+            's.first_name',
+            's.last_name',
+            's.email',
+            'addr.address',
+            'addr.district',
+            'addr.postal_code',
+            'c.city',
+            'cou.country',
+        ])
+        ->leftJoin('address as addr', 's.address_id', '=', 'addr.address_id')
+        ->leftJoin('city as c', 'addr.city_id', '=', 'c.city_id')
+        ->leftJoin('country as cou', 'c.country_id', '=', 'cou.country_id')
+        ->get();
+
+    // -----------------------------------------------------------------------------------------------------------------------
+
+
     
+
+
+    return $staffWithAddresses;
 });
