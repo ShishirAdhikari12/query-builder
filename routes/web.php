@@ -131,9 +131,54 @@ Route::get('/', function () {
 
     // -----------------------------------------------------------------------------------------------------------------------
 
+    /* 
+    #display the titles of movies starting with the letters K and Q whose language is English (You are only allowed to use subqueries)
 
-    
+    using join-------------
+    select f.film_id, f.title, l.name 
+    from film f 
+    join `language` l 
+    on f.language_id = l.language_id 
+    where l.name = 'English'
+    and f.title like 'K%'
+    or f.title like 'Q%'
 
 
-    return $staffWithAddresses;
+ */
+    // ----MY SOLUTION---
+    $films = DB::table('film as f')
+        ->select(['f.film_id', 'f.title'])
+        ->join('language as l', 'f.language_id', '=', 'l.language_id')
+        ->where('l.name', 'English')
+        ->where(function ($query) {
+            $query->where('f.title', 'like', 'K%')
+                ->orWhere('f.title', 'like', 'Q%');
+        })
+        ->get();
+    // ---------------------------------------------------------------
+    /* select film_id, title
+    from film
+    where title like 'K%' or title like 'Q%'
+    and language_id in (
+        select language_id 
+        from language
+        where name = 'English'
+    )
+    order by title */
+
+    $films = DB::table('film')
+        ->select(['film_id', 'title'])
+        ->where('title', 'like', 'K%')
+        ->orWhere('title', 'like', 'Q%')
+        ->whereIn('language_id', function ($query) {
+            $query->select(['language_id'])
+                ->from('language')
+                ->where('name', 'English');
+        })
+        ->orderBy('title')
+        ->get();
+
+
+
+    return $films;
 });
