@@ -178,7 +178,61 @@ Route::get('/', function () {
         ->orderBy('title')
         ->get();
 
+    //---------------------------------------------------------------------------------------------
+    /* #write a query to display each store's id, city, country and sales they have made.
+    # store->left join ->address
+    # address->inner join -> city
+    # city->inner join ->country     ===> store id   // store details
 
+    # customer-> inner join ->payment  ===> store id //payment details
 
-    return $films;
+    select store_details.*, payment_details.sales 
+    from(
+        select s.store_id, city.city, count.country 
+        from store as s
+        left join address a 
+        on s.address_id = a.address_id
+        join city
+        on a.city_id = city.city_id 
+        join country as count
+        on city.country_id = count.country_id 
+    ) as store_details
+    join (
+        select c.store_id, sum(pay.amount ) as sales
+        from customer as c 
+        inner join payment as pay
+        on c.customer_id = pay.customer_id
+        group by c.store_id
+        
+    ) as payment_details
+    on store_details.store_id = payment_details.store_id
+    order by store_details.store_id  */
+
+    $store_details = DB::query()
+        ->select([
+            's.store_id',
+            'city.city',
+            'count.country',
+        ])
+        ->from('store as s')
+        ->leftJoin('address as a', 's.address_id', '=', 'a.address_id')
+        ->join('city', 'a.city_id', '=', 'city.city_id')
+        ->join('country as count', 'city.country_id', '=', 'count.country_id');
+    
+    $payment_details = DB::query()
+        ->select([
+            'c.store_id',
+            DB::raw('sum(pay.amount) as sales'),
+        ])
+        ->from('customer as c')
+        ->join('payment as pay', 'c.customer_id', '=', 'pay.customer_id')
+        ->groupBy('c.store_id');
+
+    $sales_details = DB::query()
+    ->select('sd.*', 'pd.sales')
+    ->fromSub($store_details, 'sd')
+    ->joinSub($payment_details, 'pd', 'sd.store_id', '=', 'pd.store_id')
+    ->get();
+
+    return $sales_details;
 });
