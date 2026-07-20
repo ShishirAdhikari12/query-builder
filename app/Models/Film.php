@@ -41,4 +41,14 @@ class Film extends Model
         return $this->belongsToMany(Category::class, 'film_category', 'film_id', 'category_id');
     }
 
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class, 'film_id', 'film_id');
+    }
+
+    public function filmText()
+    {
+        return $this->hasOne(FilmText::class, 'film_id', 'film_id');
+    }
+
 }
