@@ -307,3 +307,9 @@ Route::get('/', function () {
 
     return $categories;
 });
+
+Route::get('/result', function () {
+    $result = null;
+
+    return $result;
+});
