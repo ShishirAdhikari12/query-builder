@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ActorController;
+use App\Models\Actor;
 
 Route::get('/', function () {
 
@@ -305,11 +307,9 @@ Route::get('/', function () {
         ->orderBy('film_count', 'desc')->get();
 
 
-    return $categories;
+    return view('welcome');
 });
 
-Route::get('/result', function () {
-    $result = null;
-
-    return $result;
-});
+Route::get('/actors', [ActorController::class, 'index'])->name('actor.index');
+Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');
+Route::put('/editActor/{actor}', [ActorController::class, 'update'])->name('actor.update');
