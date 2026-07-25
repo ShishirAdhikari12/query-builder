@@ -307,8 +307,8 @@ Route::get('/', function () {
         ->orderBy('film_count', 'desc')->get();
 
 
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
 Route::get('/actors', [ActorController::class, 'index'])->name('actor.index');
 Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');

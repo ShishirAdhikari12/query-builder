@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-layouts.app>
+    <x-slot:title>
+        Actors
+    </x-slot:title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actors</title>
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
-</head>
-
-<body class="min-h-screen bg-sky-100">
+<div class="min-h-screen bg-sky-100">
 
     <div class="max-w-7xl mx-auto px-6 py-10">
 
@@ -73,6 +67,13 @@
         }
     </script>
 
-</body>
+</div>
 
-</html>
+<div class="flex justify-center m-10 bg-sky-100 py-10">
+    <div class="w-3/4 ">
+
+        {{ $actors->links() }}
+    </div>
+</div>
+
+</x-layouts.app>

@@ -12,7 +12,7 @@ class ActorController extends Controller
      */
     public function index()
     {
-        $actors = Actor::all();
+        $actors = Actor::cursorPaginate(15);
 
         
         return view('actor.index', [

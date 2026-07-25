@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-layouts.app>
+    <x-slot:title>
+        Edit Actor:{{ $actor->first_name }}
+    </x-slot:title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Actor</title>
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
-</head>
-
-<body class="min-h-screen bg-sky-100 flex items-center justify-center p-8">
+<div class="min-h-screen bg-sky-100 flex items-center justify-center p-8">
 
     <form action="{{ route('actor.update', $actor) }}" method="POST" class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8">
         @csrf
@@ -46,6 +40,6 @@
 
     </form>
 
-</body>
+</div>
 
-</html>
+</x-layouts.app>
