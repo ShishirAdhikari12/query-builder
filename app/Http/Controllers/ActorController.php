@@ -24,7 +24,7 @@ class ActorController extends Controller
      */
     public function create()
     {
-        //
+        return view('actor.create');
     }
 
     /**
@@ -32,7 +32,17 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+        ]);
+
+        Actor::create([
+            "first_name" => strtoupper($validated['first_name']),
+            "last_name" => strtoupper($validated['last_name'])
+        ]);
+
+        return redirect()->route('actor.index')->with("success", "Actor Created Successfully.");
     }
 
     /**

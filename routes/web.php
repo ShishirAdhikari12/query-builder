@@ -311,6 +311,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/actors', [ActorController::class, 'index'])->name('actor.index');
+
+Route::get('/createActor', [ActorController::class, 'create'])->name('actor.create');
+Route::put('/createActor', [ActorController::class, 'store'])->name('actor.store');
 Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');
 Route::put('/editActor/{actor}', [ActorController::class, 'update'])->name('actor.update');
 Route::get('/deletActor/{actor}', [ActorController::class, 'destroy'])->name('actor.delete');
