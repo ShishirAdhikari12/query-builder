@@ -30,6 +30,7 @@
                 <input type="text" name="last_name" value="{{ old('last_name', $actor->last_name) }}"
                     class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-700 placeholder:text-slate-400 outline-none transition duration-200 focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-200">
             </div>
+            <input type="hidden" name="cursor" value="{{ request('cursor') }}">
 
             <button type="submit"
                 class="w-full rounded-xl bg-sky-600 py-3 text-white font-semibold shadow-lg shadow-sky-300/50 transition duration-200 hover:bg-sky-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">

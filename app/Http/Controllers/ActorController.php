@@ -12,9 +12,8 @@ class ActorController extends Controller
      */
     public function index()
     {
-        $actors = Actor::cursorPaginate(15);
+        $actors = Actor::cursorPaginate(100);
 
-        
         return view('actor.index', [
             'actors' => $actors,
         ]);
@@ -66,10 +65,13 @@ class ActorController extends Controller
 
         $actor->update([
             'first_name' => strtoupper($validated['first_name']),
-            'last_name'  => strtoupper($validated['last_name']),
+            'last_name' => strtoupper($validated['last_name']),
         ]);
 
-        return redirect()->route('actor.index')->with('success', 'Actor updated successfully.');
+        // return redirect()->route('actor.index')->with('success', 'Actor updated successfully.');
+        return redirect()->route('actor.index', [
+            'cursor' => $request->cursor,
+        ])->with('success', 'Actor updated successfully.');
     }
 
     /**
@@ -77,6 +79,7 @@ class ActorController extends Controller
      */
     public function destroy(Actor $actor)
     {
-        //
+        $actor->delete();
+        return redirect()->back();
     }
 }
