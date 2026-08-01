@@ -28,8 +28,8 @@
                         </div>
 
                         <div class="flex justify-between w-full gap-1">
-                            <a href="{{ route('actor.edit', ['actor'=>$actor,'cursor'=>request('cursor') ]) }}"
-                                class="w-full text-center py-3 rounded-xl bg-sky-600 font-semibold text-white shadow-lg shadow-sky-300/50 transition duration-200 hover:bg-sky-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
+                            <a href="{{ route('actor.edit', ['actor' => $actor, 'cursor' => request('cursor')]) }}"
+                                class="w-full text-center py-3 rounded-xl bg-amber-600 font-semibold text-white shadow-lg shadow-sky-300/50 transition duration-200 hover:bg-amber-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
 
                                 Edit
 
@@ -42,6 +42,13 @@
 
                             </a>
                         </div>
+                        <br>
+                        <a href="{{ route('actor.show', ['first_name' => $actor->first_name, 'last_name' => $actor->last_name]) }}">
+                            <div
+                                class="w-full text-center mt-3 py-3 px-6 rounded-xl bg-blue-600 font-semibold text-white shadow-lg shadow-blue-300/50 transition duration-200 hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
+                                Show
+                            </div>
+                        </a>
 
                     </div>
                 @endforeach

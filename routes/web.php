@@ -316,4 +316,5 @@ Route::get('/createActor', [ActorController::class, 'create'])->name('actor.crea
 Route::put('/createActor', [ActorController::class, 'store'])->name('actor.store');
 Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');
 Route::put('/editActor/{actor}', [ActorController::class, 'update'])->name('actor.update');
-Route::get('/deletActor/{actor}', [ActorController::class, 'destroy'])->name('actor.delete');
+Route::get('/deleteActor/{actor}', [ActorController::class, 'destroy'])->name('actor.delete');
+Route::get('/showActor/{first_name}/{last_name}', [ActorController::class, 'show'])->name('actor.show');

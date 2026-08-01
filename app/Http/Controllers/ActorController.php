@@ -38,19 +38,31 @@ class ActorController extends Controller
         ]);
 
         Actor::create([
-            "first_name" => strtoupper($validated['first_name']),
-            "last_name" => strtoupper($validated['last_name'])
+            'first_name' => strtoupper($validated['first_name']),
+            'last_name' => strtoupper($validated['last_name']),
         ]);
 
-        return redirect()->route('actor.index')->with("success", "Actor Created Successfully.");
+        return redirect()->route('actor.index')->with('success', 'Actor Created Successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Actor $actor)
+    public function show($first_name, $last_name)
     {
-        //
+        // $actor = Actor::where('first_name', $first_name)->where('last_name', $last_name)->firstOrFail();
+
+        // $films = $actor->films()->select('film.film_id', 'film.title')->get();
+        $actor = Actor::whereFirstName($first_name)
+            ->whereLastName($last_name)
+            ->with('films:film_id,title')
+            ->firstOrFail();
+
+        // dd($actor);
+        return view('actor.show', [
+            'actor' => $actor,
+            
+        ]);
     }
 
     /**
@@ -90,6 +102,7 @@ class ActorController extends Controller
     public function destroy(Actor $actor)
     {
         $actor->delete();
+
         return redirect()->back();
     }
 }
