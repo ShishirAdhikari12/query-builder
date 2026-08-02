@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ActorController;
+use App\Http\Controllers\FilmController;
 use App\Models\Actor;
 
 Route::get('/', function () {
@@ -312,9 +313,14 @@ Route::get('/', function () {
 
 Route::get('/actors', [ActorController::class, 'index'])->name('actor.index');
 
-Route::get('/createActor', [ActorController::class, 'create'])->name('actor.create');
-Route::put('/createActor', [ActorController::class, 'store'])->name('actor.store');
-Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');
-Route::put('/editActor/{actor}', [ActorController::class, 'update'])->name('actor.update');
-Route::get('/deleteActor/{actor}', [ActorController::class, 'destroy'])->name('actor.delete');
+// Route::get('/createActor', [ActorController::class, 'create'])->name('actor.create');
+// Route::put('/createActor', [ActorController::class, 'store'])->name('actor.store');
+// Route::get('/editActor/{actor}', [ActorController::class, 'edit'])->name('actor.edit');
+// Route::put('/editActor/{actor}', [ActorController::class, 'update'])->name('actor.update');
+// Route::get('/deleteActor/{actor}', [ActorController::class, 'destroy'])->name('actor.delete');
 Route::get('/showActor/{first_name}/{last_name}', [ActorController::class, 'show'])->name('actor.show');
+
+
+
+Route::get('/films', [FilmController::class, 'index'])->name('film.index');
+Route::get('/showFilm/{title}', [FilmController::class, 'show'])->name('film.show');

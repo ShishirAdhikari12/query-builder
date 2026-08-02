@@ -28,19 +28,19 @@
                         </div>
 
                         <div class="flex justify-between w-full gap-1">
-                            <a href="{{ route('actor.edit', ['actor' => $actor, 'cursor' => request('cursor')]) }}"
+                            {{-- <a href="{{ route('actor.edit', ['actor' => $actor, 'cursor' => request('cursor')]) }}"
                                 class="w-full text-center py-3 rounded-xl bg-amber-600 font-semibold text-white shadow-lg shadow-sky-300/50 transition duration-200 hover:bg-amber-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
 
                                 Edit
 
-                            </a>
+                            </a> --}}
 
-                            <a href="{{ route('actor.delete', $actor) }}"
+                            {{-- <a href="{{ route('actor.delete', $actor) }}"
                                 class="w-full text-center py-3 rounded-xl bg-red-600 font-semibold text-white shadow-lg shadow-sky-300/50 transition duration-200 hover:bg-red-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
 
                                 Delete
 
-                            </a>
+                            </a> --}}
                         </div>
                         <br>
                         <a href="{{ route('actor.show', ['first_name' => $actor->first_name, 'last_name' => $actor->last_name]) }}">
