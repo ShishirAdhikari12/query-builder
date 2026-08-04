@@ -10,9 +10,26 @@ class ActorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $actors = Actor::cursorPaginate(100);
+        $search = trim($request->search);
+        $parts = preg_split('/\s+/', $search);
+
+        $actors = Actor::query()
+            ->when(count($parts) >= 2, function ($query) use ($parts) {
+                $query->where('first_name', 'like', "%{$parts[0]}%")
+                    ->where('last_name', 'like', "%{$parts[1]}%");
+            })
+            ->when(count($parts) === 1 && $parts[0] !== '', function ($query) use ($parts) {
+                $query->where(function ($q) use ($parts) {
+                    $q->where('first_name', 'like', "%{$parts[0]}%")
+                        ->orWhere('last_name', 'like', "%{$parts[0]}%");
+                });
+            })
+            ->orderBy('actor_id')
+            ->paginate(100)
+            ->withQueryString();
+        // $actors = Actor::cursorPaginate(100);
 
         return view('actor.index', [
             'actors' => $actors,
@@ -61,7 +78,7 @@ class ActorController extends Controller
         // dd($actor);
         return view('actor.show', [
             'actor' => $actor,
-            
+
         ]);
     }
 

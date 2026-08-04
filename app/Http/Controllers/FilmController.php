@@ -10,10 +10,17 @@ class FilmController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(request $request)
     {
+        // $films = Film::select('film_id', 'title')
+        //     ->Paginate(100);
+
         $films = Film::select('film_id', 'title')
-            ->Paginate(100);
+            ->when($request->search, function($query, $search) {
+                $query->where('title', 'like', "%$search%");
+            })
+            ->Paginate(100)
+            ->withQueryString();
 
         return view('film.index', [
             'films' => $films,

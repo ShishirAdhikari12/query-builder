@@ -5,11 +5,29 @@
 
     <div class="min-h-screen bg-sky-100">
 
-        <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="max-w-7xl mx-auto px-6 py-10 relative">
 
-            <h1 class="text-4xl font-bold text-slate-800 text-center mb-10">
-                All Actors
-            </h1>
+            <div class="flex justify-center">
+                <a href="{{ route('actor.index') }}"
+                    class="text-4xl font-bold text-slate-800 text-center mb-10">
+                    All Actors
+                </a>
+            </div>
+
+            <div class="w-1/3 absolute right-0 top-12">
+                <form action="{{ route('actor.index') }}" method="GET" class="mb-6">
+                    <div class="flex gap-3">
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search actors..."
+                            class="w-full bg-white rounded-lg border border-slate-300 px-4 py-2 focus:border-sky-500 focus:ring-sky-500">
+
+                        <button type="submit" class="rounded-lg bg-sky-600 px-5 py-2 text-white hover:bg-sky-700">
+                            Search
+                        </button>
+                    </div>
+                </form>
+
+            </div>
 
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
@@ -43,7 +61,8 @@
                             </a> --}}
                         </div>
                         <br>
-                        <a href="{{ route('actor.show', ['first_name' => $actor->first_name, 'last_name' => $actor->last_name]) }}">
+                        <a
+                            href="{{ route('actor.show', ['first_name' => $actor->first_name, 'last_name' => $actor->last_name]) }}">
                             <div
                                 class="w-full text-center mt-3 py-3 px-6 rounded-xl bg-blue-600 font-semibold text-white shadow-lg shadow-blue-300/50 transition duration-200 hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 active:shadow-inner">
                                 Show
