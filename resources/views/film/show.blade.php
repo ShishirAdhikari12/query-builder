@@ -121,6 +121,24 @@
                         </div>
                     </section>
 
+                    <!-- Category -->
+                    <section>
+                        <h2 class="mb-4 text-xl font-semibold text-slate-800">
+                            Category
+                        </h2>
+
+                        <div class="flex flex-wrap gap-3">
+                            @foreach ($film->categories as $category)
+                                <a href="{{ route('film.category', ['name' => $category->name]) }}">
+
+                                    <span class="rounded-full bg-sky-100 px-4 py-2 text-sm font-medium text-sky-700">
+                                        {{ $category->name }}
+                                    </span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </section>
+
 
                     <!-- Cast -->
                     <section>
@@ -131,10 +149,12 @@
                         @if ($film->actors->isNotEmpty())
                             <div class="flex flex-wrap gap-3">
                                 @foreach ($film->actors as $actor)
-                                    <span
-                                        class="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 border">
-                                        {{ $actor->first_name }} {{ $actor->last_name }}
-                                    </span>
+                                    <a href="{{ route('actor.show', ['first_name'=>$actor->first_name, 'last_name'=>$actor->last_name]) }}" class="py-2">
+                                        <span
+                                            class="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 border">
+                                            {{ $actor->first_name }} {{ $actor->last_name }}
+                                        </span>
+                                    </a>
                                 @endforeach
                             </div>
                         @else

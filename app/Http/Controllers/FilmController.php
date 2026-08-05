@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Film;
 use Illuminate\Http\Request;
 
@@ -10,13 +11,13 @@ class FilmController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(request $request)
+    public function index(Request $request)
     {
         // $films = Film::select('film_id', 'title')
         //     ->Paginate(100);
 
         $films = Film::select('film_id', 'title')
-            ->when($request->search, function($query, $search) {
+            ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%$search%");
             })
             ->Paginate(100)
@@ -52,6 +53,7 @@ class FilmController extends Controller
             ->with([
                 'language:language_id,name',
                 'actors:actor_id,first_name,last_name',
+                'categories:category_id,name',
             ])
             ->firstOrFail();
 
@@ -82,5 +84,31 @@ class FilmController extends Controller
     public function destroy(Film $film)
     {
         //
+    }
+
+    public function category($categoryname, Request $request)
+    {
+        // dd($category);
+        // $cat = Category::where('name', $categoryname);
+        // dd($cat);
+        // $category = Category::where('name', $categoryname)->firstOrFail();
+        // $films = $category->films()->get();
+        // dd($films);
+
+        $category = Category::where('name', $categoryname)->firstOrFail();
+
+        $films = $category->films()
+            ->select('film.film_id', 'film.title')
+            ->when($request->search, function ($query, $search) {
+                $query->where('film.title', 'like', "%{$search}%");
+            })
+            ->paginate(100)
+            ->withQueryString();
+
+        // dd($films);
+        return view('film.index', [
+            'films' => $films,
+        ]);
+
     }
 }

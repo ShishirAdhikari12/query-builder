@@ -122,4 +122,17 @@ class ActorController extends Controller
 
         return redirect()->back();
     }
+
+    public function topActors()
+    {
+        $actors = Actor::withCount('films')
+            ->orderByDesc('films_count')
+            ->paginate(100);
+
+        // $actors = Actor::cursorPaginate(100);
+        // dd($actors);
+        return view('actor.index', [
+            'actors' => $actors,
+        ]);
+    }
 }

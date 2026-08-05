@@ -312,6 +312,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/actors', [ActorController::class, 'index'])->name('actor.index');
+Route::get('/topActors', [ActorController::class, 'topActors'])->name('actor.top');
 
 // Route::get('/createActor', [ActorController::class, 'create'])->name('actor.create');
 // Route::put('/createActor', [ActorController::class, 'store'])->name('actor.store');
@@ -324,3 +325,5 @@ Route::get('/showActor/{first_name}/{last_name}', [ActorController::class, 'show
 
 Route::get('/films', [FilmController::class, 'index'])->name('film.index');
 Route::get('/showFilm/{title}', [FilmController::class, 'show'])->name('film.show');
+
+Route::get('/category/{name}', [FilmController::class, 'category'])->name('film.category');

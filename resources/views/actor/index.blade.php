@@ -7,9 +7,11 @@
 
         <div class="max-w-7xl mx-auto px-6 py-10 relative">
 
+            <a href="{{ route('actor.top') }}" class="w-1/3 absolute left-0 top-12">
+                <span class="rounded-lg bg-sky-600 px-5 py-2 text-white hover:bg-sky-700">Top Actors</span>
+            </a>
             <div class="flex justify-center">
-                <a href="{{ route('actor.index') }}"
-                    class="text-4xl font-bold text-slate-800 text-center mb-10">
+                <a href="{{ route('actor.index') }}" class="text-4xl font-bold text-slate-800 text-center mb-10">
                     All Actors
                 </a>
             </div>

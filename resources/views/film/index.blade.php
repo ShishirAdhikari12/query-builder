@@ -66,9 +66,11 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between px-8 py-6 border-b">
                     <div>
-                        <h1 class="text-3xl font-bold text-slate-800">
-                            🎬 Films
-                        </h1>
+                        <a href="{{ route('film.index') }}">
+                            <h1 class="text-3xl font-bold text-slate-800">
+                                🎬 Films
+                            </h1>
+                        </a>
                         <p class="text-sm text-slate-500 mt-1">
                             Showing {{ $films->firstItem() }}–{{ $films->lastItem() }}
                             of {{ $films->total() }} films
